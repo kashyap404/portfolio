@@ -56,11 +56,11 @@
       <article class="blog-post">
         <h2 class="blog-title">What Happens When You Run Your Code</h2>
         
-        <p>You hit run. A single, quiet, keyboard shortcut act of faith. And a fraction of a second later, text appears on your screen. You don't think about it. You just accept it, the way you accept that pressing a light switch makes light happen.</p>
-        <p>But behind that fraction of a second is an absurd amount of machinery. Parsers arguing with your syntax, optimizers rewriting your code, and eventually some electrons in a silicon wafer being bullied into doing exactly what you asked, even when what you asked was <code>for(int i=0;i&lt;=n;i++) arr[i]</code>.</p>
-        <p>Let's walk through it.</p>
+        <p>You hit run. A single keyboard click. And a fraction of a second later, text appears on your screen. You don't think about it. You just accept it, the way you accept that pressing a light switch makes light happen.</p>
+        <p>But behind that fraction of a second is a good  amount of machinery. Parsers arguing with your syntax, optimizers rewriting your code, and eventually some electrons in a silicon wafer being bullied into doing exactly what you asked, even when what you asked was <code>for(int i=0;i&lt;=n;i++) arr[i]</code>.</p>
 
-        <h3 class="step-title" id="step-0">Step 0: You, Full of Hope</h3>
+
+        <h3 class="step-title" id="step-0">Step 0: The Source Code</h3>
         <p>You write something like this:</p>
         <img src="codeblock_white.png" alt="C++ code for square function" class="blog-img codeblock-img">
         <p>At this point your code is just a <code>.cpp</code> file (a text file). To the computer, right now, it means nothing. It's a string. Your CPU does not know what <code>int</code> is. It does not care about <code>square</code>.</p>
@@ -89,7 +89,7 @@
         <p>Fun fact: if you've ever gotten a mysterious <code>unexpected token</code> error, this is the stage silently judging you before the parser even gets a chance to.</p>
 
         <h3 class="step-title" id="step-2">Step 2: Parsing &gt;&gt; Giving the LEGO Bricks a Family Tree</h3>
-        <p>Next comes the parser, which takes that stream of tokens and builds a tree structure called an Abstract Syntax Tree (AST). Basically a family diagram of your code, where every operation knows who its parents and children are.</p>
+        <p>Next comes the parser, which takes that stream of tokens and builds a tree structure called an Abstract Syntax Tree (AST). Basically its a family diagram of your code, where every operation knows who its parents and children are.</p>
         
         <div class="ast-svg-container">
           <svg viewBox="0 0 1300 560" class="ast-svg" xmlns="http://www.w3.org/2000/svg">
@@ -165,10 +165,10 @@
           </svg>
         </div>
 
-        <p>This is also where the parser enforces grammar. Forget a closing brace? The parser doesn't gently suggest you fix it. it throws a tantrum with a red squiggly line and a cryptic error pointing at line 47 when your actual mistake is on line 12. Parsers have commitment issues. They blame the wrong line all the time.</p>
+        <p>This is also where the parser enforces grammar. Forget a closing brace? The parser doesn't gently suggest you fix it. it throws a red squiggly line and an error pointing at line 47 when your actual mistake is on line 12. Parsers have commitment issues. They blame the wrong line all the time.</p>
 
         <h3 class="step-title" id="step-3">Step 3: Semantic Analysis &gt;&gt; "Sure, It's Grammatically Fine, But Does It Make Sense?"</h3>
-        <p>Your code can be syntactically perfect and still be nonsense, like saying "the colorless green idea slept furiously." This is where semantic analysis comes in: type checking, scope resolution, making sure you didn't try to add a string to a struct and expect the universe not to notice.</p>
+        <p>Your code can be syntactically perfect and still be nonsense, like saying "the colorless green idea slept vaguely." This is where semantic analysis comes in: type checking, scope resolution, making sure you didn't try to add a string to a struct and expect it to work...</p>
         <p>This is also the stage that catches things like:</p>
         <pre><code><span class="syn-key">int</span> <span class="syn-var">x</span> = <span class="syn-str">"hello"</span>; <span class="syn-com">// absolutely not, sir</span></code></pre>
 
@@ -179,7 +179,7 @@
   <span class="syn-key">ret</span> <span class="syn-type" data-ref="int">i32</span> <span class="syn-var">%1</span>
 }</code></pre>
 
-        <p>Why bother with this middle step instead of going straight from AST to machine code? Because IR lets the compiler be lazy in a good way. Write one frontend per language, one backend per CPU architecture, and let IR be the universal translator in between. It's the Google Translate of compilers, except it's actually reliable.</p>
+        <p>Why bother with this middle step instead of going straight from AST to machine code? Because IR lets the compiler be lazy in a good way. Write one frontend per language, one backend per CPU architecture, and let IR be the universal translator in between.</p>
 
         <h3 class="step-title" id="step-5">Step 5: Optimization &gt;&gt; The Compiler Rewrites Your Code Behind Your Back</h3>
         <p>This is the compiler's villain-origin-story arc. It looks at your IR and goes "cute, but I can do better," and proceeds to:</p>
@@ -193,24 +193,23 @@
 
         <h3 class="step-title" id="step-6">Step 6: Code Generation &gt;&gt; Speaking the CPU's Native Tongue</h3>
         <p>Now the IR gets turned into actual machine code. The specific instruction set your CPU understands: x86-64, ARM, RISC-V, whatever silicon you're currently running this on.</p>
-        <p>This stage has to know everything annoying and specific about your target hardware. Register allocation, calling conventions, instruction scheduling, how many registers you actually have (spoiler: never enough). It's the compiler doing the diplomatic work of translating your abstractions into the CPU's "picky" native language.</p>
+        <p>This stage has to know everything annoying and specific about your target hardware. Register allocation, calling conventions, instruction scheduling, how many registers you actually have (spoiler: never enough). its the compiler doing the diplomatic work of translating your abstractions into the CPU's "picky" native language.</p>
 
         <h3 class="step-title" id="step-7">Step 7: Assembling and Linking &gt;&gt; Putting the Puzzle Together</h3>
         <p>The assembler turns that assembly text into raw machine code bytes (object files, <code>.o</code>). Then the linker shows up and stitches together every object file and library your program depends on, resolving all the "hey, where's the actual definition of <code>printf</code>?" questions into one final executable.</p>
         <p>This is also the stage responsible for the single most infuriating error in all of computing:</p>
         <pre><code><span class="syn-err">undefined reference to `main'</span></code></pre>
-        <p>You will see this error at 2 AM. You will not know why. You will add a semicolon somewhere out of desperation. It will not help.</p>
 
         <h3 class="step-title" id="step-8">Step 8: The OS Loader &gt;&gt; Actually Waking the Program Up</h3>
         <p>You run the executable. The OS loader steps in, reads the binary, maps it into memory, sets up the stack and heap, resolves any dynamic libraries, and hands control over to your program's entry point.</p>
-        <p>Only now, after lexing, parsing, semantic checks, IR, optimization, codegen, assembling, and linking. After all of that does your CPU actually start executing instructions. <code>main()</code> finally runs. <code>square(5)</code> finally squares 5. The universe briefly makes sense.</p>
+        <p>Only now, after lexing, parsing, semantic checks, IR, optimization, codegen, assembling, and linking. After all of that does your CPU actually start executing instructions. <code>main()</code> finally runs. <code>square(5)</code> finally squares 5.</p>
 
         <h3 class="step-title" id="step-9">Step 9: Execution &gt;&gt; The Anticlimax</h3>
         <p>The CPU fetches instructions, decodes them, executes them, one clock cycle at a time, billions of times per second, moving bits between registers and memory with the emotional range of, well, a CPU. 25 gets computed. It gets returned. Your program exits with status code 0 (please, God, let it be 0).</p>
         <p>And that's it. That's the whole show. Milliseconds of your life you'll never get back, spent reading about milliseconds of your program's life that actually mattered.</p>
 
         <h3 class="step-title" id="step-conclusion">So Why Should You Care?</h3>
-        <p>Because the next time your code doesn't compile, you'll know exactly which of these nine increasingly judgmental stages is currently disappointed in you. Is it a lexer complaining about a stray character? A parser confused about your brackets? A linker that can't find <code>main</code>? Knowing the pipeline turns "compiler error" from an act of cosmic malice into a very specific, very traceable "oh, I forgot a semicolon in step 2."</p>
+        <p>Because the next time your code doesn't compile, you'll know exactly which of these nine stages is currently disappointed in you. Is it a lexer complaining about a stray character? A parser confused about your brackets? A linker that can't find <code>main</code>? Knowing the pipeline turns "compiler error" from an act of cosmic malice into a very specific, very traceable "oh, I forgot a semicolon in step 2."</p>
         <p>Compilers are, in the end, just a very elaborate, very patient translation chain, turning human intention into something a metal made of sand, plastic etc can understand. Which, honestly, is one of the more romantic things computer science has to offer.</p>
 
         <h3 class="step-title" id="step-blazescript">One More Thing: I Built One</h3>
@@ -260,7 +259,7 @@
         <p>doesn't magically become a working program. BlazeScript has to tokenize it, understand its structure, build an AST, check that the types make sense, generate LLVM IR, optimize it, and eventually produce executable WebAssembly.</p>
         <p>Which is basically everything we just talked about.</p>
         <p>And that's the part I find interesting about compilers: once you've seen the pipeline enough times, the black box starts disappearing. You stop seeing</p>
-        <p><code>code → run</code></p>
+        <p><code>code and run</code></p>
         <p>and start seeing all the machinery hiding in between.</p>
         <p>BlazeScript is my attempt at building that machinery myself.</p>
         
