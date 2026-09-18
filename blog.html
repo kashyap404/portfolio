@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>blog · kashyap agarwal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%231c211d'/%3E%3Ctext x='8' y='11' font-size='8' font-family='monospace' text-anchor='middle' fill='%23e6e6e2'%3E$_%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<nav class="pipeline-nav">
+  <a href="#step-0" class="pipeline-nav-item">0</a>
+  <a href="#step-1" class="pipeline-nav-item">1</a>
+  <a href="#step-2" class="pipeline-nav-item">2</a>
+  <a href="#step-3" class="pipeline-nav-item">3</a>
+  <a href="#step-4" class="pipeline-nav-item">4</a>
+  <a href="#step-5" class="pipeline-nav-item">5</a>
+  <a href="#step-6" class="pipeline-nav-item">6</a>
+  <a href="#step-7" class="pipeline-nav-item">7</a>
+  <a href="#step-8" class="pipeline-nav-item">8</a>
+  <a href="#step-9" class="pipeline-nav-item">9</a>
+  <a href="#step-blazescript" class="pipeline-nav-item">★</a>
+</nav>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="identity">
+      <h1 class="name">kashyap agarwal</h1>
+      <p class="tagline">EE @ VJTI</p>
+    </div>
+
+    <div class="nav-block">
+      <nav class="tabs" id="tabs">
+        <a href="index.html#about"    class="tab">about</a>
+        <a href="index.html#projects" class="tab">projects</a>
+        <a href="index.html#now"      class="tab">now</a>
+        <a href="blog.html"           class="tab active">blog</a>
+        <a href="index.html#contact"  class="tab">contact</a>
+        <a href="index.html#terminal" class="tab">shell</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="toggle theme">◐</button>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <section id="blog" class="blog-section in-view">
+      <span class="cmd">$ cat blog/what-happens-when-you-run-your-code.md</span>
+      <article class="blog-post">
+        <h2 class="blog-title">What Happens When You Run Your Code</h2>
+        
+        <p>You hit run. A single, quiet, keyboard shortcut act of faith. And a fraction of a second later, text appears on your screen. You don't think about it. You just accept it, the way you accept that pressing a light switch makes light happen.</p>
+        <p>But behind that fraction of a second is an absurd amount of machinery. Parsers arguing with your syntax, optimizers rewriting your code, and eventually some electrons in a silicon wafer being bullied into doing exactly what you asked, even when what you asked was <code>for(int i=0;i&lt;=n;i++) arr[i]</code>.</p>
+        <p>Let's walk through it.</p>
+
+        <h3 class="step-title" id="step-0">Step 0: You, Full of Hope</h3>
+        <p>You write something like this:</p>
+        <img src="codeblock_white.png" alt="C++ code for square function" class="blog-img codeblock-img">
+        <p>At this point your code is just a <code>.cpp</code> file (a text file). To the computer, right now, it means nothing. It's a string. Your CPU does not know what <code>int</code> is. It does not care about <code>square</code>.</p>
+
+        <h3 class="step-title" id="step-1">Step 1: Lexing &gt;&gt; Turning Sentences into LEGO Bricks</h3>
+        <p>The first thing the compiler does is called lexical analysis, or "tokenizing" if you want to sound cool at a hackathon. The lexer reads your source code character by character and groups them into meaningful chunks called tokens.</p>
+        <p>So <code>int square(int x) {</code> becomes:</p>
+        
+        <div class="token-list">
+          <div class="token" data-ref="int">KEYWORD(int)</div>
+          <div class="token" data-ref="square">IDENTIFIER(square)</div>
+          <div class="token">LPAREN</div>
+          <div class="token" data-ref="int">KEYWORD(int)</div>
+          <div class="token" data-ref="x">IDENTIFIER(x)</div>
+          <div class="token">RPAREN</div>
+          <div class="token">LBRACE</div>
+          <div class="token">RETURN</div>
+          <div class="token" data-ref="x">IDENTIFIER(x)</div>
+          <div class="token" data-ref="mul">STAR</div>
+          <div class="token" data-ref="x">IDENTIFIER(x)</div>
+          <div class="token">SEMICOLON</div>
+          <div class="token">RBRACE</div>
+        </div>
+
+        <p>This is the compiler equivalent of hearing someone speak and going "okay, that was a noun, that was a verb…." It has no idea yet what any of it means. it's just sorting your alphabet soup into labeled words.</p>
+        <p>Fun fact: if you've ever gotten a mysterious <code>unexpected token</code> error, this is the stage silently judging you before the parser even gets a chance to.</p>
+
+        <h3 class="step-title" id="step-2">Step 2: Parsing &gt;&gt; Giving the LEGO Bricks a Family Tree</h3>
+        <p>Next comes the parser, which takes that stream of tokens and builds a tree structure called an Abstract Syntax Tree (AST). Basically a family diagram of your code, where every operation knows who its parents and children are.</p>
+        
+        <div class="ast-svg-container">
+          <svg viewBox="0 0 1300 560" class="ast-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" class="arrow-path" />
+              </marker>
+            </defs>
+            
+            <!-- Edges -->
+            <path class="ast-edge" d="M 590,60 L 590,80 L 230,80 L 230,95" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 590,60 L 590,80 L 950,80 L 950,95" marker-end="url(#arrowhead)" />
+            
+            <path class="ast-edge" d="M 230,130 L 230,150 L 80,150 L 80,165" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 230,130 L 230,165" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 230,130 L 230,150 L 550,150 L 550,165" marker-end="url(#arrowhead)" />
+            
+            <path class="ast-edge" d="M 230,200 L 230,220 L 80,220 L 80,235" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 230,200 L 230,220 L 380,220 L 380,235" marker-end="url(#arrowhead)" />
+            
+            <path class="ast-edge" d="M 550,200 L 550,235" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 550,270 L 550,305" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 550,340 L 550,360 L 450,360 L 450,375" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 550,340 L 550,360 L 650,360 L 650,375" marker-end="url(#arrowhead)" />
+            
+            <path class="ast-edge" d="M 950,130 L 950,150 L 800,150 L 800,165" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 950,130 L 950,165" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 950,130 L 950,150 L 1100,150 L 1100,165" marker-end="url(#arrowhead)" />
+            
+            <path class="ast-edge" d="M 1100,200 L 1100,220 L 1000,220 L 1000,235" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 1100,200 L 1100,220 L 1200,220 L 1200,235" marker-end="url(#arrowhead)" />
+            
+            <path class="ast-edge" d="M 1000,270 L 1000,290 L 850,290 L 850,305" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 1000,270 L 1000,305" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 1000,270 L 1000,290 L 1150,290 L 1150,305" marker-end="url(#arrowhead)" />
+            
+            <path class="ast-edge" d="M 1150,340 L 1150,375" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 1150,410 L 1150,445" marker-end="url(#arrowhead)" />
+            <path class="ast-edge" d="M 1150,480 L 1150,515" marker-end="url(#arrowhead)" />
+
+            <!-- Nodes -->
+            <g class="ast-node" transform="translate(590, 30)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Program</text></g>
+            
+            <g class="ast-node" data-ref="square" transform="translate(230, 100)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">FunctionDecl: square</text></g>
+            <g class="ast-node" data-ref="square" transform="translate(950, 100)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">FunctionDecl: main</text></g>
+
+            <g class="ast-node" data-ref="int" transform="translate(80, 170)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">ReturnType: int</text></g>
+            <g class="ast-node" transform="translate(230, 170)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Parameter</text></g>
+            <g class="ast-node" transform="translate(550, 170)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Body</text></g>
+
+            <g class="ast-node" data-ref="x" transform="translate(80, 240)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Name: x</text></g>
+            <g class="ast-node" data-ref="int" transform="translate(380, 240)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Type: int</text></g>
+            <g class="ast-node" transform="translate(550, 240)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">ReturnStmt</text></g>
+
+            <g class="ast-node" data-ref="mul" transform="translate(550, 310)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">BinaryExpr: *</text></g>
+            <g class="ast-node" data-ref="x" transform="translate(450, 380)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Variable: x</text></g>
+            <g class="ast-node" data-ref="x" transform="translate(650, 380)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Variable: x</text></g>
+
+            <g class="ast-node" data-ref="int" transform="translate(800, 170)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">ReturnType: int</text></g>
+            <g class="ast-node" transform="translate(950, 170)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Parameters: none</text></g>
+            <g class="ast-node" transform="translate(1100, 170)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Body</text></g>
+
+            <g class="ast-node" transform="translate(1000, 240)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">VariableDecl</text></g>
+            <g class="ast-node" transform="translate(1200, 240)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">ReturnStmt</text></g>
+
+            <g class="ast-node" transform="translate(850, 310)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Name: result</text></g>
+            <g class="ast-node" data-ref="int" transform="translate(1000, 310)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Type: int</text></g>
+            <g class="ast-node" transform="translate(1150, 310)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Initializer</text></g>
+
+            <g class="ast-node" data-ref="square" transform="translate(1150, 380)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">CallExpr: square</text></g>
+            <g class="ast-node" transform="translate(1150, 450)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">Argument</text></g>
+            <g class="ast-node" transform="translate(1150, 520)"><rect x="-70" y="0" width="140" height="30" rx="4" /><text x="0" y="20">IntegerLiteral: 5</text></g>
+          </svg>
+        </div>
+
+        <p>This is also where the parser enforces grammar. Forget a closing brace? The parser doesn't gently suggest you fix it. it throws a tantrum with a red squiggly line and a cryptic error pointing at line 47 when your actual mistake is on line 12. Parsers have commitment issues. They blame the wrong line all the time.</p>
+
+        <h3 class="step-title" id="step-3">Step 3: Semantic Analysis &gt;&gt; "Sure, It's Grammatically Fine, But Does It Make Sense?"</h3>
+        <p>Your code can be syntactically perfect and still be nonsense, like saying "the colorless green idea slept furiously." This is where semantic analysis comes in: type checking, scope resolution, making sure you didn't try to add a string to a struct and expect the universe not to notice.</p>
+        <p>This is also the stage that catches things like:</p>
+        <pre><code><span class="syn-key">int</span> <span class="syn-var">x</span> = <span class="syn-str">"hello"</span>; <span class="syn-com">// absolutely not, sir</span></code></pre>
+
+        <h3 class="step-title" id="step-4">Step 4: Intermediate Representation &gt;&gt; The Great Flattening</h3>
+        <p>Now the compiler translates your AST into an Intermediate Representation (IR), a lower-level, simplified form that's easier to analyze and optimize, and not tied to any specific CPU. Think LLVM IR, if you've heard of it (and if you're the kind of person reading a compilers blog, you probably have).</p>
+        <pre><code><span class="syn-key">define</span> <span class="syn-type" data-ref="int">i32</span> <span class="syn-fn" data-ref="square">@square</span>(<span class="syn-type" data-ref="int">i32</span> <span class="syn-var" data-ref="x">%x</span>) {
+  <span class="syn-var">%1</span> = <span class="syn-key" data-ref="mul">mul</span> <span class="syn-type" data-ref="int">i32</span> <span class="syn-var" data-ref="x">%x</span>, <span class="syn-var" data-ref="x">%x</span>
+  <span class="syn-key">ret</span> <span class="syn-type" data-ref="int">i32</span> <span class="syn-var">%1</span>
+}</code></pre>
+
+        <p>Why bother with this middle step instead of going straight from AST to machine code? Because IR lets the compiler be lazy in a good way. Write one frontend per language, one backend per CPU architecture, and let IR be the universal translator in between. It's the Google Translate of compilers, except it's actually reliable.</p>
+
+        <h3 class="step-title" id="step-5">Step 5: Optimization &gt;&gt; The Compiler Rewrites Your Code Behind Your Back</h3>
+        <p>This is the compiler's villain-origin-story arc. It looks at your IR and goes "cute, but I can do better," and proceeds to:</p>
+        <ul>
+          <li>Constant fold <code>2 + 2</code> into <code>4</code> at compile time, because why make the CPU do arithmetic it doesn't have to</li>
+          <li>Inline your tiny <code>square()</code> function directly into <code>main()</code>, deleting the function call entirely</li>
+          <li>Eliminate dead code. That <code>if (false)</code> block you forgot to remove? Gone. Vaporized. Never existed.</li>
+          <li>Hoist loop-invariant computations out of loops so they don't get repeated needlessly</li>
+        </ul>
+        <p>By the time optimization passes are done, your beautifully written, readable, well-commented code has been quietly replaced with something a machine finds efficient and a human would find unrecognizable.</p>
+
+        <h3 class="step-title" id="step-6">Step 6: Code Generation &gt;&gt; Speaking the CPU's Native Tongue</h3>
+        <p>Now the IR gets turned into actual machine code. The specific instruction set your CPU understands: x86-64, ARM, RISC-V, whatever silicon you're currently running this on.</p>
+        <p>This stage has to know everything annoying and specific about your target hardware. Register allocation, calling conventions, instruction scheduling, how many registers you actually have (spoiler: never enough). It's the compiler doing the diplomatic work of translating your abstractions into the CPU's "picky" native language.</p>
+
+        <h3 class="step-title" id="step-7">Step 7: Assembling and Linking &gt;&gt; Putting the Puzzle Together</h3>
+        <p>The assembler turns that assembly text into raw machine code bytes (object files, <code>.o</code>). Then the linker shows up and stitches together every object file and library your program depends on, resolving all the "hey, where's the actual definition of <code>printf</code>?" questions into one final executable.</p>
+        <p>This is also the stage responsible for the single most infuriating error in all of computing:</p>
+        <pre><code><span class="syn-err">undefined reference to `main'</span></code></pre>
+        <p>You will see this error at 2 AM. You will not know why. You will add a semicolon somewhere out of desperation. It will not help.</p>
+
+        <h3 class="step-title" id="step-8">Step 8: The OS Loader &gt;&gt; Actually Waking the Program Up</h3>
+        <p>You run the executable. The OS loader steps in, reads the binary, maps it into memory, sets up the stack and heap, resolves any dynamic libraries, and hands control over to your program's entry point.</p>
+        <p>Only now, after lexing, parsing, semantic checks, IR, optimization, codegen, assembling, and linking. After all of that does your CPU actually start executing instructions. <code>main()</code> finally runs. <code>square(5)</code> finally squares 5. The universe briefly makes sense.</p>
+
+        <h3 class="step-title" id="step-9">Step 9: Execution &gt;&gt; The Anticlimax</h3>
+        <p>The CPU fetches instructions, decodes them, executes them, one clock cycle at a time, billions of times per second, moving bits between registers and memory with the emotional range of, well, a CPU. 25 gets computed. It gets returned. Your program exits with status code 0 (please, God, let it be 0).</p>
+        <p>And that's it. That's the whole show. Milliseconds of your life you'll never get back, spent reading about milliseconds of your program's life that actually mattered.</p>
+
+        <h3 class="step-title" id="step-conclusion">So Why Should You Care?</h3>
+        <p>Because the next time your code doesn't compile, you'll know exactly which of these nine increasingly judgmental stages is currently disappointed in you. Is it a lexer complaining about a stray character? A parser confused about your brackets? A linker that can't find <code>main</code>? Knowing the pipeline turns "compiler error" from an act of cosmic malice into a very specific, very traceable "oh, I forgot a semicolon in step 2."</p>
+        <p>Compilers are, in the end, just a very elaborate, very patient translation chain, turning human intention into something a metal made of sand, plastic etc can understand. Which, honestly, is one of the more romantic things computer science has to offer.</p>
+
+        <h3 class="step-title" id="step-blazescript">One More Thing: I Built One</h3>
+        <p>Everything above sounds nice in theory, but eventually you get tired of just reading about compilers and decide to make one.</p>
+        <p>That's what BlazeScript is.</p>
+        <p>BlazeScript is a small, statically typed programming language and compiler I built from scratch. It has its own lexer, recursive-descent parser, AST, semantic analysis, and LLVM-based backend.</p>
+        <p>The basic pipeline looks roughly like:</p>
+        
+        <div class="ast-svg-container pipeline-svg-container">
+          <svg viewBox="0 0 1600 60" class="ast-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arrowhead-pipe" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" class="arrow-path" />
+              </marker>
+            </defs>
+            
+            <g class="ast-node" transform="translate(95, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">BlazeScript source</text></g>
+            <path class="ast-edge" d="M 170,30 L 220,30" marker-end="url(#arrowhead-pipe)" />
+            
+            <g class="ast-node" transform="translate(295, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">Lexer</text></g>
+            <path class="ast-edge" d="M 370,30 L 420,30" marker-end="url(#arrowhead-pipe)" />
+            
+            <g class="ast-node" transform="translate(495, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">Parser</text></g>
+            <path class="ast-edge" d="M 570,30 L 620,30" marker-end="url(#arrowhead-pipe)" />
+            
+            <g class="ast-node" transform="translate(695, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">AST</text></g>
+            <path class="ast-edge" d="M 770,30 L 820,30" marker-end="url(#arrowhead-pipe)" />
+            
+            <g class="ast-node" transform="translate(895, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">Semantic Analysis</text></g>
+            <path class="ast-edge" d="M 970,30 L 1020,30" marker-end="url(#arrowhead-pipe)" />
+            
+            <g class="ast-node" transform="translate(1095, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">LLVM IR</text></g>
+            <path class="ast-edge" d="M 1170,30 L 1220,30" marker-end="url(#arrowhead-pipe)" />
+            
+            <g class="ast-node" transform="translate(1295, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">Optimization</text></g>
+            <path class="ast-edge" d="M 1370,30 L 1420,30" marker-end="url(#arrowhead-pipe)" />
+            
+            <g class="ast-node" transform="translate(1495, 10)"><rect x="-75" y="0" width="150" height="40" rx="4" /><text x="0" y="25">WASM</text></g>
+          </svg>
+        </div>
+
+        <p>For example, something as simple as:</p>
+        <pre><code><span class="syn-key">fn</span> <span class="syn-fn">square</span>(<span class="syn-var">x</span>: <span class="syn-type">i32</span>) -&gt; <span class="syn-type">i32</span> {
+    <span class="syn-key">return</span> <span class="syn-var">x</span> * <span class="syn-var">x</span>;
+}</code></pre>
+
+        <p>doesn't magically become a working program. BlazeScript has to tokenize it, understand its structure, build an AST, check that the types make sense, generate LLVM IR, optimize it, and eventually produce executable WebAssembly.</p>
+        <p>Which is basically everything we just talked about.</p>
+        <p>And that's the part I find interesting about compilers: once you've seen the pipeline enough times, the black box starts disappearing. You stop seeing</p>
+        <p><code>code → run</code></p>
+        <p>and start seeing all the machinery hiding in between.</p>
+        <p>BlazeScript is my attempt at building that machinery myself.</p>
+        
+        <a href="https://github.com/kashyap404/BlazeScript" class="cta-link" target="_blank" rel="noopener noreferrer">[ view BlazeScript → ]</a>
+      </article>
+    </section>
+
+    <footer>
+      <a href="index.html" class="back-link">← back to home</a>
+    </footer>
+
+  </main>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

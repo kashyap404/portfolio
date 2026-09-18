@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kashyap agarwal</title>
+<meta name="description" content="kashyap agarwal, EE undergrad at VJTI, exploring computer architecture and compilers.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%231c211d'/%3E%3Ctext x='8' y='11' font-size='8' font-family='monospace' text-anchor='middle' fill='%23e6e6e2'%3E$_%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scanlines" aria-hidden="true"></div>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="identity">
+      <h1 class="name">kashyap agarwal</h1>
+      <p class="tagline">EE @ VJTI</p>
+    </div>
+
+    <div class="nav-block">
+      <nav class="tabs" id="tabs">
+        <a href="#about"    class="tab" data-target="about">about</a>
+        <a href="#projects" class="tab" data-target="projects">projects</a>
+        <a href="#now"      class="tab" data-target="now">now</a>
+        <a href="blog.html" class="tab">blog</a>
+        <a href="#contact"  class="tab" data-target="contact">contact</a>
+        <a href="#terminal" class="tab" data-target="terminal">shell</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="toggle theme">◐</button>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <header class="hero">
+      <div class="status-line">
+        <span class="dot"></span>
+        <span class="status-text">online · open to ideas</span>
+      </div>
+      <div class="boot" id="boot">
+        <div class="boot-line"><span class="prompt">kashyap@vjti:~$</span> <span id="typed"></span><span class="cursor"></span></div>
+        <div class="boot-output" id="bootOutput"></div>
+      </div>
+    </header>
+
+    <section id="about">
+      <span class="cmd">$ cat about.md</span>
+      <p>i'm an EE undergrad at VJTI, spending most of my time on the side of the stack between hardware and software: computer architecture, compilers, LLVM internals. still figuring out exactly where I want to specialize, but that's the general direction. outside of tech, i really enjoy video editing and cooking.</p>
+    </section>
+
+    <section id="projects">
+      <span class="cmd">$ ls ./projects</span>
+      <div class="project">
+        <div class="project-head">
+          <span class="name">BlazeScript</span>
+          <a href="https://github.com/kashyap404/BlazeScript" class="proj-link" target="_blank" rel="noopener noreferrer" aria-label="view BlazeScript on github">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.02c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.42.36.79 1.08.79 2.18v3.23c0 .31.21.68.8.56A10.52 10.52 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+          </a>
+        </div>
+        <p>A programming language with its frontend written from scratch in C++ and its backend powered by LLVM. It started as a project in building a toolchain end to end, covering the lexer, parser, and AST, semantic analysis.... The focus is now shifting toward using it as a compact hardware representation for LLMs. See the <a href="#now" class="jump">now</a> section for details.</p>
+        <p class="stack">c++ · llvm · custom syntax</p>
+      </div>
+    </section>
+
+    <section id="now" class="now">
+      <span class="cmd">$ cat now.txt</span>
+      <blockquote>
+<p> Verilog is too low-level and un-structured for both humans and LLM agents to reason about efficiently. Blazescript would become a control-flow-preserving hardware representation (like Calyx's approach) that an LLM can read in far fewer tokens than raw RTL, while still compiling down to real Verilog via existing infrastructure like CIRCT/MLIR.</p>
+      </blockquote>
+    </section>
+
+    <section id="contact" class="contact">
+      <span class="cmd">$ cat contact.txt</span>
+      <div class="contact-grid">
+        <a href="https://github.com/kashyap404" class="contact-card" target="_blank" rel="noopener noreferrer">
+          <span class="card-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.02c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.2 1.79 1.2 1.04 1.79 2.73 1.27 3.4.97.11-.76.41-1.27.74-1.56-2.55-.29-5.23-1.28-5.23-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.42.36.79 1.08.79 2.18v3.23c0 .31.21.68.8.56A10.52 10.52 0 0023.5 12C23.5 5.73 18.27.5 12 .5z"/></svg>
+          </span>
+          <span class="card-meta">
+            <span class="card-label">github</span>
+            <span class="card-handle">@kashyap404</span>
+          </span>
+        </a>
+        <a href="https://www.linkedin.com/in/kashyap-agarwal-04642b395/" class="contact-card" target="_blank" rel="noopener noreferrer">
+          <span class="card-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 11-.01-4.12 2.06 2.06 0 01.01 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          </span>
+          <span class="card-meta">
+            <span class="card-label">linkedin</span>
+            <span class="card-handle">/kashyap-agarwal</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section id="terminal" class="terminal-section">
+      <span class="cmd">$ ./shell</span>
+      <div class="term" id="term">
+        <div class="term-log" id="termLog">
+          <div class="term-line muted">type <b>help</b> to see what this does.</div>
+        </div>
+        <div class="term-input-row">
+          <span class="prompt">kashyap@vjti:~$</span>
+          <input id="termInput" class="term-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal input">
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span id="clock">--:--:--</span>
+      <span class="sep">·</span>
+      <span id="uptime">uptime 0s</span>
+      <span class="sep">·</span>
+      <span>hosted on github pages</span>
+    </footer>
+
+  </main>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
